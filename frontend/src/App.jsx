@@ -1,8 +1,13 @@
+import {React} from 'react';
+import {logger} from './util/SimpleDebug.js'
+
 class App extends React.Component {
 
 
     constructor() {
         super();
+        logger.setOn();
+        logger.setLevel(100);
     }
 
     render() {

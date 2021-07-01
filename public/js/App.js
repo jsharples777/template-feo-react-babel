@@ -2,11 +2,19 @@ function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.crea
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+import { React } from 'react';
+import { logger } from './util/SimpleDebug.js';
+
 var App = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(App, _React$Component);
 
   function App() {
-    return _React$Component.call(this) || this;
+    var _this;
+
+    _this = _React$Component.call(this) || this;
+    logger.setOn();
+    logger.setLevel(100);
+    return _this;
   }
 
   var _proto = App.prototype;
