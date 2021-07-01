@@ -54,8 +54,5 @@ export default class Controller {
             .catch(error => {
 
             });
-
     }
-
-
 }
