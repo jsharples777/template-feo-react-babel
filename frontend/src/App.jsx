@@ -1,5 +1,5 @@
-import {React} from 'react';
-import {logger} from './util/SimpleDebug.js'
+import logger from './util/SimpleDebug.js'
+import Controller from "./Controller.js";
 
 class App extends React.Component {
 
@@ -8,6 +8,7 @@ class App extends React.Component {
         super();
         logger.setOn();
         logger.setLevel(100);
+        this.controller = new Controller(this,window.localStorage);
     }
 
     render() {

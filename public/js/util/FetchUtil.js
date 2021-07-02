@@ -1,4 +1,4 @@
-import { logger } from './SimpleDebug.js';
+import logger from './SimpleDebug.js';
 
 var FetchUtil = /*#__PURE__*/function () {
   function FetchUtil() {}

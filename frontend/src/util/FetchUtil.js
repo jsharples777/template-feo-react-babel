@@ -1,4 +1,4 @@
-import {logger} from './SimpleDebug.js';
+import logger from './SimpleDebug.js';
 
 class FetchUtil {
     /*

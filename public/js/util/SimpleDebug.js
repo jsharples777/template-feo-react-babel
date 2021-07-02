@@ -1,4 +1,4 @@
-export var SimpleDebug = /*#__PURE__*/function () {
+var SimpleDebug = /*#__PURE__*/function () {
   function SimpleDebug() {
     this.debugOn = true;
     this.debugDepth = 100;
@@ -33,5 +33,6 @@ export var SimpleDebug = /*#__PURE__*/function () {
 
   return SimpleDebug;
 }();
+
 var logger = new SimpleDebug();
 export default logger;

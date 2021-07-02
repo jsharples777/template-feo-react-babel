@@ -1,4 +1,4 @@
-export class SimpleDebug {
+class SimpleDebug {
     constructor() {
         this.debugOn = true;
         this.debugDepth = 100;
