@@ -7,9 +7,7 @@ class SimpleDebug {
     log(message, debugDepth = 5) {
         if (!this.debugOn) return;
         if (debugDepth > this.debugDepth) return;
-        if (this.debugOn) {
-            console.log(message);
-        }
+        console.log(message);
     }
 
     setLevel(newLevel) {
