@@ -8,17 +8,28 @@ require('dotenv').config();
 const app = express();
 
 app.use(bodyparser.json()); /* handle JSON POST */
-app.use(morgan("dev")); /* log server calls with performance timinig */
 
-/* log call requests with body */
-app.use((request, response, next) => {
-    console.log(`Received request for ${request.url} with/without body`);
-    console.log(request.body);
-    next();
-});
+if (process.env.SERVER_RUNTIME === "Development") {
+    app.use(morgan("dev")); /* log server calls with performance timinig */
+    /* log call requests with body */
+    app.use((request, response, next) => {
+        if (request.method === "POST") {
+            console.log(`Received POST request for ${request.url} with body`);
+            console.log(request.body);
+        }
+
+        next();
+    });
+
+}
+else {
+    app.use(morgan("combined")); /* log server calls with performance timinig */
+
+}
+
 
 /* setup the public files to be available (e.g. content, css, client side js files) */
-app.use(express.static("public"));
+app.use(express.static(process.env.SERVER_ROOT));
 
 /* handle request for current weather from Open Weather API */
 app.post("/current", (req, res) => {

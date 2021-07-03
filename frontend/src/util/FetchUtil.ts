@@ -1,4 +1,4 @@
-import logger from './SimpleDebug.js';
+import SimpleDebug from './SimpleDebug.js';
 
 class FetchUtil {
     /*
@@ -13,14 +13,14 @@ class FetchUtil {
           b)  Parameters that cannot be converted to JSON format will give a null data and code 404
           c)  A server error will give that code and no data
     */
-    fetchQLJSON(url, parameters, callback) {
-        logger.log(`Executing fetch with URL ${url} with body ${parameters}`, 100);
+    public static fetchQLJSON(url:string, parameters:any, callback:(jsonData:any,httpStatus:number) => void) :void {
+        SimpleDebug.log(`Executing fetch with URL ${url} with body ${parameters}`, 100);
         try {
             JSON.stringify({parameters});
 
         } catch (error) {
-            logger.log("Unable to convert parameters to JSON", 100);
-            logger.log(parameters, 100);
+            SimpleDebug.log("Unable to convert parameters to JSON", 100);
+            SimpleDebug.log(parameters, 100);
             callback(null, 404);
         }
         const postParameters = {
@@ -32,7 +32,7 @@ class FetchUtil {
 
         fetch(url, postParameters)
             .then((response) => {
-                logger.log("Response code was " + response.status);
+                SimpleDebug.log("Response code was " + response.status);
                 if (response.status >= 200 && response.status <= 299) {
                     return response.json();
                 } else {
@@ -41,14 +41,12 @@ class FetchUtil {
                 }
             })
             .then(data => {
-                callback(JSON.parse(data));
+                callback(JSON.parse(data),200);
             })
             .catch(error => {
-
+                callback(null,404);
             });
     }
 }
 
-let fetchUtil = new FetchUtil();
-
-export default fetchUtil;
+export default FetchUtil;

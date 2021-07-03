@@ -4,7 +4,8 @@
   "description": "Template for front-end with React and Babel compiler",
   "main": "index.js",
   "scripts": {
-    "compile": "babel frontend/src --out-dir public/js",
+    "tsc": "tsc",
+    "compile": "babel --extensions \".ts,.js,.jsx,.tsx\" frontend/src --out-dir public/js",
     "watch": "babel frontend/src --out-dir public/js --watch --verbose",
     "start": "nodemon -e js,graphql,env -w server -w .env  -w . server/server.js"
   },
@@ -18,13 +19,19 @@
     "nodemon": "^2.0.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "systemjs": "^6.10.1",
+    "tsc": "^2.0.3",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/react": "^17.0.13",
+    "@types/react-dom": "^17.0.8",
     "babel-polyfill": "^6.26.0"
   },
   "repository": {
