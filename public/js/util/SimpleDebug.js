@@ -1,38 +1,46 @@
-var SimpleDebug = /*#__PURE__*/function () {
-  function SimpleDebug() {
-    this.debugOn = true;
-    this.debugDepth = 100;
-  }
-
-  var _proto = SimpleDebug.prototype;
-
-  _proto.log = function log(message, debugDepth) {
-    if (debugDepth === void 0) {
-      debugDepth = 5;
+class SimpleDebug {
+    constructor() {
+        this.debugOn = true;
+        this.debugDepth = 100;
+        this.minDebugDepth = 0;
     }
 
-    if (!this.debugOn) return;
-    if (debugDepth > this.debugDepth) return;
-
-    if (this.debugOn) {
-      console.log(message);
+    log(message, debugDepth = 0) {
+        if (!this.debugOn) return;
+        if (debugDepth > this.debugDepth) return;
+        if (debugDepth < this.minDebugDepth) return;
+        console.log(message);
     }
-  };
 
-  _proto.setLevel = function setLevel(newLevel) {
-    this.debugDepth = newLevel;
-  };
+    setLevel(newLevel) {
+        this.debugDepth = newLevel;
+    }
 
-  _proto.setOn = function setOn() {
-    this.debugOn = true;
-  };
+    level() {
+        return this.debugDepth;
+    }
 
-  _proto.setOff = function setOff() {
-    this.debugOn = false;
-  };
+    minlevel() {
+        return this.minDebugDepth;
+    }
 
-  return SimpleDebug;
-}();
+    setMinLevel(newLevel) {
+        this.minDebugDepth = newLevel;
+    }
 
-var logger = new SimpleDebug();
+    setOn() {
+        this.debugOn = true;
+    }
+
+    setOff() {
+        this.debugOn = false;
+    }
+
+    isOn() {
+        return this.debugOn;
+    }
+
+}
+
+let logger = new SimpleDebug();
 export default logger;

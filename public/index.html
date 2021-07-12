@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <title>Template</title>
   </head>
@@ -21,10 +21,17 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="/dist/jquery/jquery.min.js"></script>
+  <script src="/dist/react/react.development.js" crossorigin></script>
+  <script src="/dist/react-dom/react-dom.development.js" crossorigin></script>
+  <script src="/dist/bootstrap/js/bootstrap.js"></script>
+<!--  <script src="/dist/socket.io/socket.js"></script>-->
+<!--  <script src="/bootstrap/bootstrap.js"></script>-->
+  <script src="/socket.io/socket.io.js"></script>
   <script type="module" src="./js/App.js"></script>
+
+  <script>
+    var socket = io();
+  </script>
 </html>
