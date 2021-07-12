@@ -1,104 +1,82 @@
 import logger from "./SimpleDebug.js";
 
-export default class LocalStorageUtil {
+var LocalStorageUtil = /*#__PURE__*/function () {
+  function LocalStorageUtil(localStorage) {
+    this.localStorage = localStorage;
+  }
 
-    constructor(localStorage) {
-        this.localStorage = localStorage;
+  var _proto = LocalStorageUtil.prototype;
+
+  _proto.saveWithStorageKey = function saveWithStorageKey(key, saveData) {
+    logger.log("Saving with key " + key, 100);
+    logger.log(saveData, 100);
+    var stringifiedSaveData = JSON.stringify(saveData);
+    logger.log(stringifiedSaveData, 101);
+    this.localStorage.setItem(key, stringifiedSaveData);
+  };
+
+  _proto.getWithStorageKey = function getWithStorageKey(key) {
+    var savedResults = [];
+    logger.log("Loading with key " + key, 100);
+    var savedResultsJSON = this.localStorage.getItem(key);
+    logger.log(savedResultsJSON, 101);
+
+    if (savedResultsJSON !== null) {
+      savedResults = JSON.parse(savedResultsJSON);
     }
 
+    return savedResults;
+  }
+  /* add a new item to the local storage if not already there */
+  ;
 
-    saveWithStorageKey(key, saveData) {
-        if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Saving with key " + key);
-        if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log(saveData);
-        let stringifiedSaveData = JSON.stringify(saveData);
-        if (logger.isOn() && (510 <= logger.level()) && (510 >= logger.minlevel())) console.log(stringifiedSaveData);
-        this.localStorage.setItem(key, stringifiedSaveData);
+  _proto.addNewItemToKeyStorage = function addNewItemToKeyStorage(key, item) {
+    if (item !== null) {
+      logger.log("Adding with key " + key, 100);
+      logger.log(item, 101);
+      var previousResults = this.getWithStorageKey(key);
+      previousResults.push(item);
+      this.saveWithStorageKey(key, previousResults);
     }
+  };
 
-    getWithStorageKey(key) {
-        let savedResults = [];
-        if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Loading with key " + key);
-        let savedResultsJSON = this.localStorage.getItem(key);
-        if (logger.isOn() && (510 <= logger.level()) && (510 >= logger.minlevel())) console.log(savedResultsJSON);
-        if (savedResultsJSON !== null) {
-            savedResults = JSON.parse(savedResultsJSON);
-        }
-        return savedResults;
+  _proto.removeItemFromKeyStorage = function removeItemFromKeyStorage(key, item) {
+    if (item !== null) {
+      logger.log("Removing with key " + key, 100);
+      logger.log(item, 101);
+      var previousResults = this.getWithStorageKey(key);
+      var foundIndex = previousResults.findIndex(function (element) {
+        return element === item;
+      });
+
+      if (foundIndex >= 0) {
+        logger.log("Found item - removing ", 100);
+        previousResults.splice(foundIndex, 1);
+        logger.log(previousResults, 101);
+        this.saveWithStorageKey(key, previousResults);
+      }
     }
+  };
 
-    /* add a new item to the local storage if not already there */
-    addNewItemToKeyStorage(key, item) {
-        if (item !== null) {
-            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Adding with key " + key);
-            if (logger.isOn() && (510 <= logger.level()) && (510 >= logger.minlevel())) console.log(item);
-            let previousResults = this.getWithStorageKey(key);
-            previousResults.push(item);
-            this.saveWithStorageKey(key, previousResults);
-        }
+  _proto.removeItemFromKeyStorageWithFunctionForEquality = function removeItemFromKeyStorageWithFunctionForEquality(key, item, testForEqualityFunction) {
+    if (item !== null) {
+      logger.log("Removing with key " + key + " and comparison function", 100);
+      logger.log(item, 101);
+      var previousResults = this.getWithStorageKey(key);
+      var foundIndex = previousResults.findIndex(function (element) {
+        return testForEqualityFunction(element, item);
+      });
+
+      if (foundIndex >= 0) {
+        logger.log("Found item - removing ", 100);
+        previousResults.splice(foundIndex, 1);
+        logger.log(previousResults, 101);
+        this.saveWithStorageKey(key, previousResults);
+      }
     }
+  };
 
-    removeItemFromKeyStorage(key, item) {
-        if (item !== null) {
-            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Removing with key " + key);
-            if (logger.isOn() && (510 <= logger.level()) && (510 >= logger.minlevel())) console.log(item);
-            let previousResults = this.getWithStorageKey(key);
-            let foundIndex = previousResults.findIndex((element) => element === item);
-            if (foundIndex >= 0) {
-                if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Found item - removing ");
-                previousResults.splice(foundIndex, 1);
-                if (logger.isOn() && (510 <= logger.level()) && (510 >= logger.minlevel())) console.log(previousResults);
-                this.saveWithStorageKey(key, previousResults);
-            }
-        }
-    }
+  return LocalStorageUtil;
+}();
 
-    removeAllItemsFromKeyStorage(key) {
-        if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Removing ALL with key " + key);
-        this.localStorage.removeItem(key);
-        return [];
-    }
-
-    removeItemFromKeyStorageWithFunctionForEquality(key, item, testForEqualityFunction) {
-        if (item !== null) {
-            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Removing with key " + key + " and comparison function");
-            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log(item);
-            try {
-                let previousResults = this.getWithStorageKey(key);
-                let foundIndex = previousResults.findIndex((element) => {
-                    return testForEqualityFunction(element, item)
-                });
-                if (foundIndex >= 0) {
-                    if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Found item - removing ");
-                    previousResults.splice(foundIndex, 1);
-                    if (logger.isOn() && (520 <= logger.level()) && (520 >= logger.minlevel())) console.log(previousResults);
-                    this.saveWithStorageKey(key, previousResults);
-                }
-            } catch (e) {
-                if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Error with removing item - clearing local storage key " + key);
-                this.localStorage.removeItem(key);
-            }
-        }
-
-    }
-
-    isItemInKeyStorageWithFunctionForEquality(key, item, testForEqualityFunction) {
-        let result = false;
-        if (item !== null) {
-            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Is item in local key storage " + key);
-            if (logger.isOn() && (510 <= logger.level()) && (510 >= logger.minlevel())) console.log(item);
-            let previousResults = this.getWithStorageKey(key);
-            try {
-                let foundIndex = previousResults.findIndex((element) => {
-                    return testForEqualityFunction(element, item)
-                });
-                if (foundIndex >= 0) {
-                    result = true;
-                }
-            } catch (e) {
-                if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Error with checking for item  - clearing local storage key " + key);
-                this.localStorage.removeItem(key);
-            }
-        }
-        return result;
-    }
-}
+export { LocalStorageUtil as default };
