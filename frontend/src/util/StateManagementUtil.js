@@ -1,4 +1,4 @@
-import logger from "../SimpleDebug.js";
+import logger from "./SimpleDebug.js";
 
 /** To Do - make state unchangeable outside of this class (i.e. deep copies) */
 class StateManagementUtil {
