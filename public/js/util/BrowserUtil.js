@@ -1,22 +1,25 @@
-class BrowserUtil {
-    constructor() {
-    }
+var BrowserUtil = /*#__PURE__*/function () {
+  function BrowserUtil() {}
 
-    scrollSmoothToId(elementId) {
-        let element = document.getElementById(elementId);
-        element.scrollIntoView({
-            block: 'start',
-            behavior: 'smooth'
-        });
-    }
+  var _proto = BrowserUtil.prototype;
 
-    scrollSmoothTo(element) {
-        element.scrollIntoView({
-            block: 'start',
-            behavior: 'smooth'
-        });
-    }}
+  _proto.scrollSmoothToId = function scrollSmoothToId(elementId) {
+    var element = document.getElementById(elementId);
+    element.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth'
+    });
+  };
 
-let browserUtil = new BrowserUtil();
+  _proto.scrollSmoothTo = function scrollSmoothTo(element) {
+    element.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth'
+    });
+  };
 
+  return BrowserUtil;
+}();
+
+var browserUtil = new BrowserUtil();
 export default browserUtil;
