@@ -1,13 +1,13 @@
 /* base server for the application */
-var dotenv = require('dotenv').config();
-var http = require('http');
-var express = require('express');
-var request = require('request');
-//const morgan = require('morgan');
-var bodyParser = require('body-parser');
+const dotenv = require('dotenv').config();
+const http = require('http');
+const express = require('express');
+const request = require('request');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 
-var app = express();
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/',express.static("public"));
@@ -15,19 +15,19 @@ app.use('/dist', express.static("dist"));
 
 //var wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
-var httpServer = http.Server(app);
-var port = process.env.PORT || 3000;
+const httpServer = http.Server(app);
+const port = process.env.PORT || 3000;
 
-var io = require("socket.io")(httpServer);
+const io = require("socket.io")(httpServer);
 
-//io.use(wrap(morgan("dev"))); /* log server calls with performance timinig */
+app.use(morgan("dev")); /* log server calls with performance timinig */
 
 /* log call requests with body */
-// io.use(wrap((request, response, next) => {
-//     console.log(`Received request for ${request.url} with/without body`);
-//     console.log(request.body);
-//     next();
-// }));
+app.use((request, response, next) => {
+    console.log(`Received request for ${request.url} with/without body`);
+    console.log(request.body);
+    next();
+});
 
 /* setup the public files to be available (e.g. content, css, client side js files) */
 
@@ -48,8 +48,7 @@ httpServer.listen(port, () => {
     app.post("/current", (req, res) => {
         console.log("url: " + req.url);
         console.log("body: " + req.body);
-        console.log("parameters: " + req.body.parameters);
-        let newURL = process.env.CURRENT_WEATHER_URL + "?q=" + req.body.parameters.q + "&appid=" + process.env.API_KEY + "&units=metric";
+        let newURL = process.env.CURRENT_WEATHER_URL + "?q=" + req.body.q + "&appid=" + process.env.API_KEY + "&units=metric";
         console.log("new URL is: " + newURL);
         request(newURL, function (error, response, body) {
             console.error('error:', error); // Print the error if one occurred
