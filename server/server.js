@@ -20,21 +20,22 @@ const port = process.env.PORT || 3000;
 
 const io = require("socket.io")(httpServer);
 
-app.use(morgan("dev")); /* log server calls with performance timinig */
+isDevelopment = (process.env.RUNTIME === "Development");
 
-/* log call requests with body */
-app.use((request, response, next) => {
-    console.log(`Received request for ${request.url} with/without body`);
-    console.log(request.body);
-    next();
-});
+/* Are we in Development or in Production? */
+if (isDevelopment) {
+    app.use(morgan("dev")); /* log server calls with performance timing with development details */
 
-/* setup the public files to be available (e.g. content, css, client side js files) */
+    /* log call requests with body */
+    app.use((request, response, next) => {
+        console.log(`Received request for ${request.url} with/without body`);
+        console.log(request.body);
+        next();
+    });
+} else {
+    app.use(morgan("combined")); /* log server calls per standard combined Apache combined format */
 
-
-
-
-
+}
 
 httpServer.listen(port, () => {
     console.log(`Server started on port ${port}`);
