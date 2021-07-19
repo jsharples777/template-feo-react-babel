@@ -8,7 +8,7 @@ export default class LocalStorageUtil {
 
 
     saveWithStorageKey(key,saveData) {
-        logger.log("Saving with key " + key, 100);
+        logger.log("Local Storage: Saving with key " + key, 100);
         logger.log(saveData,100);
         let stringifiedSaveData = JSON.stringify(saveData);
         logger.log(stringifiedSaveData, 101);
@@ -17,7 +17,7 @@ export default class LocalStorageUtil {
 
     getWithStorageKey(key) {
         let savedResults = [];
-        logger.log("Loading with key " + key, 100);
+        logger.log("Local Storage: Loading with key " + key, 100);
         let savedResultsJSON = this.localStorage.getItem(key);
         logger.log(savedResultsJSON,101);
         if (savedResultsJSON !== null) {
@@ -29,7 +29,7 @@ export default class LocalStorageUtil {
     /* add a new item to the local storage if not already there */
     addNewItemToKeyStorage(key,item) {
         if (item !== null) {
-            logger.log("Adding with key " + key, 100);
+            logger.log("Local Storage: Adding with key " + key, 100);
             logger.log(item,101);
             let previousResults = this.getWithStorageKey(key);
             previousResults.push(item);
@@ -39,12 +39,12 @@ export default class LocalStorageUtil {
 
     removeItemFromKeyStorage(key, item) {
         if (item !== null) {
-            logger.log("Removing with key " + key, 100);
+            logger.log("Local Storage: Removing with key " + key, 100);
             logger.log(item,101);
             let previousResults = this.getWithStorageKey(key);
             let foundIndex = previousResults.findIndex((element) => element === item);
             if (foundIndex >= 0) {
-                logger.log("Found item - removing ", 100);
+                logger.log("Local Storage: Found item - removing ", 100);
                 previousResults.splice(foundIndex,1);
                 logger.log(previousResults,101);
                 this.saveWithStorageKey(key,previousResults);
@@ -54,14 +54,14 @@ export default class LocalStorageUtil {
 
     removeItemFromKeyStorageWithFunctionForEquality(key, item, testForEqualityFunction) {
         if (item !== null) {
-            logger.log("Removing with key " + key + " and comparison function", 100);
+            logger.log("Local Storage: Removing with key " + key + " and comparison function", 100);
             logger.log(item,101);
             let previousResults = this.getWithStorageKey(key);
             let foundIndex = previousResults.findIndex((element) => {
                 return testForEqualityFunction(element,item)
             });
             if (foundIndex >= 0) {
-                logger.log("Found item - removing ", 100);
+                logger.log("Local Storage: Found item - removing ", 100);
                 previousResults.splice(foundIndex,1);
                 logger.log(previousResults,101);
                 this.saveWithStorageKey(key,previousResults);

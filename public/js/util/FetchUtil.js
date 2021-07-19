@@ -17,7 +17,15 @@ var FetchUtil = /*#__PURE__*/function () {
         b)  Parameters that cannot be converted to JSON format will give a null data and code 404
         c)  A server error will give that code and no data
   */
-  _proto.fetchQLJSON = function fetchQLJSON(url, parameters, callback) {
+  _proto.fetchJSON = function fetchJSON(url, parameters, callback, queueId, requestId) {
+    if (queueId === void 0) {
+      queueId = 0;
+    }
+
+    if (requestId === void 0) {
+      requestId = 0;
+    }
+
     logger.log("Executing fetch with URL " + url + " with body " + parameters, 100);
 
     try {
@@ -27,7 +35,7 @@ var FetchUtil = /*#__PURE__*/function () {
     } catch (error) {
       logger.log("Unable to convert parameters to JSON", 100);
       logger.log(parameters, 100);
-      callback(null, 404);
+      callback(null, 404, queueId, requestId);
     }
 
     var postParameters = {
@@ -45,12 +53,14 @@ var FetchUtil = /*#__PURE__*/function () {
       if (response.status >= 200 && response.status <= 299) {
         return response.json();
       } else {
-        callback(null, response.status);
+        callback(null, response.status, queueId, requestId);
         throw new Error("no results");
       }
     }).then(function (data) {
-      callback(JSON.parse(data));
-    }).catch(function (error) {});
+      callback(JSON.parse(data), 200, queueId, requestId);
+    }).catch(function (error) {
+      callback(null, 500, queueId, requestId);
+    });
   };
 
   return FetchUtil;

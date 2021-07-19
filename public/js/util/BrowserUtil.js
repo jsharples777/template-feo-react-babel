@@ -18,6 +18,12 @@ var BrowserUtil = /*#__PURE__*/function () {
     });
   };
 
+  _proto.removeAllChildren = function removeAllChildren(element) {
+    while (element.firstChild) {
+      element.removeChild(element.lastChild);
+    }
+  };
+
   return BrowserUtil;
 }();
 

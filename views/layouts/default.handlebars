@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+{{> headers/header-main }}
+<body>
+{{> navigation }}
+{{#if error}}
+    <br/>
+    <h4>{{error.msg}}</h4>
+    <br/>
+{{/if}}
+{{{body}}}
+{{> sidebars/patient-search-sb }}
+<div id="root">
+    {{>socket-test}}
+</div>
+{{> footers/footer-main }}
+</body>
+{{>js-main}}
+{{>js-popovers-tooltips}}
+{{>js-socket-test}}
+</html>

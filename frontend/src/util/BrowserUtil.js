@@ -15,7 +15,14 @@ class BrowserUtil {
             block: 'start',
             behavior: 'smooth'
         });
-    }}
+    }
+
+    removeAllChildren(element) {
+        while (element.firstChild) {
+            element.removeChild(element.lastChild);
+        }
+    }
+}
 
 let browserUtil = new BrowserUtil();
 

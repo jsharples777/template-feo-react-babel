@@ -12,28 +12,27 @@ var StateManagementUtil = /*#__PURE__*/function () {
   var _proto = StateManagementUtil.prototype;
 
   _proto.__isStatePresent = function __isStatePresent(name) {
-    logger.log("Checking state of " + name + " not already present", 200);
     var result = this.applicationState.findIndex(function (element) {
-      return element.name !== name;
+      return element.name === name;
     }) >= 0;
-    logger.log("Checking state of " + name + " not already present " + result, 200);
+    logger.log("State Manager: Checking state of " + name + " is present = " + result, 200);
     return result;
   };
 
   _proto.__informChangeListenersForStateWithName = function __informChangeListenersForStateWithName(name, stateObjValue) {
-    logger.log("Informing state listeners of " + name, 200);
+    logger.log("State Manager: Informing state listeners of " + name, 200);
     var foundIndex = this.stateChangeListeners.findIndex(function (element) {
       return element.name === name;
     });
 
     if (foundIndex >= 0) {
-      logger.log("Found state listeners of " + name, 201);
+      logger.log("State Manager: Found state listeners of " + name, 201);
       /* let each state change listener know */
 
       var changeListenersForName = this.stateChangeListeners[foundIndex];
 
       for (var index = 0; index < changeListenersForName.listeners.length; index++) {
-        logger.log("Found state listener of " + name + " - informing", 202);
+        logger.log("State Manager: Found state listener of " + name + " - informing", 202);
         var listener = changeListenersForName.listeners[index];
         listener(name, stateObjValue);
       }
@@ -48,7 +47,7 @@ var StateManagementUtil = /*#__PURE__*/function () {
   ;
 
   _proto.addChangeListenerForName = function addChangeListenerForName(name, listener) {
-    logger.log("Adding state listener for " + name, 200);
+    logger.log("State Manager: Adding state listener for " + name, 200);
     var foundIndex = this.stateChangeListeners.findIndex(function (element) {
       return element.name === name;
     });
@@ -57,7 +56,7 @@ var StateManagementUtil = /*#__PURE__*/function () {
       var changeListenersForName = this.stateChangeListeners[foundIndex];
       changeListenersForName.listeners.push(listener);
     } else {
-      logger.log("Adding state listener for " + name + " - first occurrence", 201);
+      logger.log("State Manager: Adding state listener for " + name + " - first occurrence", 201);
       var listenersNameArrayPair = {
         name: name,
         listeners: [listener]
@@ -67,31 +66,31 @@ var StateManagementUtil = /*#__PURE__*/function () {
   };
 
   _proto.getStateByName = function getStateByName(name) {
-    logger.log("Getting state for " + name, 200);
+    logger.log("State Manager: Getting state for " + name, 200);
     var stateValueObj = {};
     var foundIndex = this.applicationState.findIndex(function (element) {
-      return element.name !== name;
+      return element.name === name;
     });
 
     if (foundIndex >= 0) {
       // get the current state
       var stateNameValuePair = this.applicationState[foundIndex];
       stateValueObj = stateNameValuePair.value;
-      logger.log("Found previous state for " + name, 201);
+      logger.log("State Manager: Found previous state for " + name, 201);
       logger.log(stateValueObj);
     } else {
       // create the state if not already present
-      stateValueObj = this.addStateByName(name, {});
+      stateValueObj = this.addStateByName(name, []);
     }
 
     return stateValueObj;
   };
 
   _proto.setStateByName = function setStateByName(name, stateObjectForName) {
-    logger.log("Setting state for " + name, 200);
+    logger.log("State Manager: Setting state for " + name, 200);
     logger.log(stateObjectForName, 200);
     var foundIndex = this.applicationState.findIndex(function (element) {
-      return element.name !== name;
+      return element.name === name;
     });
 
     if (foundIndex >= 0) {
@@ -111,7 +110,8 @@ var StateManagementUtil = /*#__PURE__*/function () {
   _proto.addStateByName = function addStateByName(name, stateObjForName) {
     /* create a new state attribute for the application state */
     if (!this.__isStatePresent(name)) {
-      logger.log("Adding state for " + name + " - first occurrence", 201);
+      logger.log("State Manager: Adding state for " + name + " - first occurrence", 201);
+      logger.log(stateObjForName, 201);
       var stateNameValuePair = {
         name: name,
         value: stateObjForName
@@ -123,6 +123,46 @@ var StateManagementUtil = /*#__PURE__*/function () {
     }
 
     return stateObjForName;
+  };
+
+  _proto.addNewItemToState = function addNewItemToState(name, item) {
+    // assumes state is an array
+    logger.log("State Manager: Adding item to state " + name, 201);
+    var state = this.getStateByName(name);
+    state.push(item);
+    logger.log(state);
+
+    this.__informChangeListenersForStateWithName(name, state);
+  };
+
+  _proto.findItemInState = function findItemInState(name, item, testForEqualityFunction) {
+    // assumes state is an array
+    var result = {};
+    var state = this.getStateByName(name);
+    var foundIndex = state.findIndex(function (element) {
+      return testForEqualityFunction(element, item);
+    });
+
+    if (foundIndex >= 0) {
+      result = state[foundIndex];
+    }
+
+    return result;
+  };
+
+  _proto.isItemInState = function isItemInState(name, item, testForEqualityFunction) {
+    // assumes state is an array
+    var result = false;
+    var state = this.getStateByName(name);
+    var foundIndex = state.findIndex(function (element) {
+      return testForEqualityFunction(element, item);
+    });
+
+    if (foundIndex >= 0) {
+      result = true;
+    }
+
+    return result;
   };
 
   return StateManagementUtil;
