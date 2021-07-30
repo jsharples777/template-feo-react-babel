@@ -65,7 +65,7 @@ if (isDevelopment) {
 // ensure the user is logged in with a path
 
 
-const routes = require('./routes/index'); // add the middleware path routing
+const routes = require('./routes'); // add the middleware path routing
 app.use("/",routes); // add the routes to the express middleware
 
 const patients = require('./routes/patients');  // add the patient middleware path routing

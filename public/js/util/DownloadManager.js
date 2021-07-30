@@ -2,7 +2,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-import fetchUtil from "./FetchUtil.js";
+import apiUtil from "./ApiUtil.js";
 import uuid from "./UUID.js";
 import logger from "./SimpleDebug.js";
 
@@ -32,30 +32,30 @@ var DownloadManager = /*#__PURE__*/function () {
     return this.backgroundQueue.length;
   };
 
-  _proto.addRequest = function addRequest(jsonPostRequest, isPriority) {
+  _proto.addApiRequest = function addApiRequest(jsonRequest, isPriority) {
     if (isPriority === void 0) {
       isPriority = false;
     }
 
     /*
     jsonPostRequest should be an object with attributes
-    a) url - the POST url
-    b) params - the POST parameters
+    a) url - the url
+    b) params - the parameters, including type GET/POST
     c) callback - the function to receive the callback of results/status
      */
     // add a new requestId to the request for future tracking
     var requestId = uuid.getUniqueId();
-    jsonPostRequest.requestId = requestId;
+    jsonRequest.requestId = requestId;
     logger.log("Download Manger: Adding Queue Request " + requestId, 100);
-    logger.log(jsonPostRequest, 200);
+    logger.log(jsonRequest, 200);
 
     if (isPriority) {
-      jsonPostRequest.queueId = 1;
-      this.priorityQueue.push(jsonPostRequest);
+      jsonRequest.queueId = 1;
+      this.priorityQueue.push(jsonRequest);
       if (this.priorityChangeListener) this.priorityChangeListener.handleEventAddToQueue();
     } else {
-      jsonPostRequest.queueId = 0;
-      this.backgroundQueue.push(jsonPostRequest);
+      jsonRequest.queueId = 0;
+      this.backgroundQueue.push(jsonRequest);
       if (this.backgroundChangeListener) this.backgroundChangeListener.handleEventAddToQueue();
     }
 
@@ -197,15 +197,15 @@ var DownloadManager = /*#__PURE__*/function () {
     }
   };
 
-  _proto.initiateFetchForQueueItem = function initiateFetchForQueueItem(queueItem) {
-    var url = queueItem.url,
-        params = queueItem.params,
-        callback = queueItem.callback,
-        queueId = queueItem.queueId,
-        requestId = queueItem.requestId;
+  _proto.initiateFetchForQueueItem = function initiateFetchForQueueItem(item) {
+    logger.log("Download Manager: initiating fetch for queue item " + item.requestId, 100);
 
-    if (url !== null && params != null && callback != null) {
-      fetchUtil.fetchJSON(url, params, this.callbackForQueueRequest, queueId, requestId);
+    if (item.url !== null && item.params != null && item.callback != null) {
+      if (item.type == "POST") {
+        apiUtil.apiFetchJSONWithPost(item.url, item.params, this.callbackForQueueRequest, item.queueId, item.requestId);
+      } else {
+        apiUtil.apiFetchJSONWithGet(item.url, item.params, this.callbackForQueueRequest, item.queueId, item.requestId);
+      }
     }
   };
 

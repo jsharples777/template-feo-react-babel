@@ -1,4 +1,4 @@
-import fetchUtil from "./FetchUtil.js";
+import apiUtil from "./ApiUtil.js";
 import uuid from "./UUID.js";
 import logger from "./SimpleDebug.js";
 
@@ -27,27 +27,27 @@ class DownloadManager {
         return this.backgroundQueue.length;
     }
 
-    addRequest(jsonPostRequest,isPriority = false) {
+    addApiRequest(jsonRequest, isPriority = false) {
         /*
         jsonPostRequest should be an object with attributes
-        a) url - the POST url
-        b) params - the POST parameters
+        a) url - the url
+        b) params - the parameters, including type GET/POST
         c) callback - the function to receive the callback of results/status
          */
         // add a new requestId to the request for future tracking
         let requestId = uuid.getUniqueId();
-        jsonPostRequest.requestId = requestId;
+        jsonRequest.requestId = requestId;
         logger.log(`Download Manger: Adding Queue Request ${requestId}`,100);
-        logger.log(jsonPostRequest,200);
+        logger.log(jsonRequest,200);
 
         if (isPriority) {
-            jsonPostRequest.queueId = 1;
-            this.priorityQueue.push(jsonPostRequest);
+            jsonRequest.queueId = 1;
+            this.priorityQueue.push(jsonRequest);
             if (this.priorityChangeListener) this.priorityChangeListener.handleEventAddToQueue();
         }
         else {
-            jsonPostRequest.queueId = 0;
-            this.backgroundQueue.push(jsonPostRequest);
+            jsonRequest.queueId = 0;
+            this.backgroundQueue.push(jsonRequest);
             if (this.backgroundChangeListener) this.backgroundChangeListener.handleEventAddToQueue();
         }
         this.processQueues();
@@ -101,10 +101,15 @@ class DownloadManager {
         }
     }
 
-    initiateFetchForQueueItem(queueItem) {
-        let {url,params,callback,queueId,requestId} = queueItem;
-        if ((url !== null) && (params != null) && (callback != null)) {
-            fetchUtil.fetchJSON(url,params,this.callbackForQueueRequest,queueId,requestId);
+    initiateFetchForQueueItem(item) {
+        logger.log(`Download Manager: initiating fetch for queue item ${item.requestId}`,100);
+        if ((item.url !== null) && (item.params != null) && (item.callback != null)) {
+            if (item.type == "POST") {
+                apiUtil.apiFetchJSONWithPost(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
+            }
+            else {
+                apiUtil.apiFetchJSONWithGet(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
+            }
         }
     }
 }
