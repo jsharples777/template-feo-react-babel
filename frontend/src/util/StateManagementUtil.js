@@ -137,7 +137,45 @@ class StateManagementUtil {
             result = true;
         }
         return result;
+    }
 
+    removeItemFromState(name, item, testForEqualityFunction) {
+        let result = false;
+        let state = this.getStateByName(name);
+        let foundIndex = state.findIndex((element) => {
+            return testForEqualityFunction(element,item)
+        });
+        if (foundIndex >= 0) {
+            result = true;
+            // remove the item from the state
+            logger.log("State Manager: Found item - removing ", 100);
+            state.splice(foundIndex,1);
+            logger.log(state,101);
+            this.setStateByName(name,state);
+        }
+        return result;
+    }
+
+    updateItemInState(name, item, testForEqualityFunction) {
+        let result = false;
+        let state = this.getStateByName(name);
+        let foundIndex = state.findIndex((element) => {
+            return testForEqualityFunction(element,item)
+        });
+        if (foundIndex >= 0) {
+            result = true;
+            // remove the item from the state
+            logger.log("State Manager: Found item - replacing ", 100);
+            state.splice(foundIndex,1);
+            state.push(item);
+            logger.log(state,101);
+            this.setStateByName(name,state);
+        }
+        else {
+            // add the item to the state
+            this.addNewItemToState(name,item);
+        }
+        return result;
     }
 }
 

@@ -165,6 +165,48 @@ var StateManagementUtil = /*#__PURE__*/function () {
     return result;
   };
 
+  _proto.removeItemFromState = function removeItemFromState(name, item, testForEqualityFunction) {
+    var result = false;
+    var state = this.getStateByName(name);
+    var foundIndex = state.findIndex(function (element) {
+      return testForEqualityFunction(element, item);
+    });
+
+    if (foundIndex >= 0) {
+      result = true; // remove the item from the state
+
+      logger.log("State Manager: Found item - removing ", 100);
+      state.splice(foundIndex, 1);
+      logger.log(state, 101);
+      this.setStateByName(name, state);
+    }
+
+    return result;
+  };
+
+  _proto.updateItemInState = function updateItemInState(name, item, testForEqualityFunction) {
+    var result = false;
+    var state = this.getStateByName(name);
+    var foundIndex = state.findIndex(function (element) {
+      return testForEqualityFunction(element, item);
+    });
+
+    if (foundIndex >= 0) {
+      result = true; // remove the item from the state
+
+      logger.log("State Manager: Found item - replacing ", 100);
+      state.splice(foundIndex, 1);
+      state.push(item);
+      logger.log(state, 101);
+      this.setStateByName(name, state);
+    } else {
+      // add the item to the state
+      this.addNewItemToState(name, item);
+    }
+
+    return result;
+  };
+
   return StateManagementUtil;
 }();
 

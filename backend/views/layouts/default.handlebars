@@ -2,7 +2,7 @@
 <html>
 {{> headers/header-main }}
 <body>
-{{> navigation }}
+{{> navigation/navigation }}
 {{#if error}}
     <br/>
     <h4>{{error.msg}}</h4>
@@ -15,7 +15,7 @@
 </div>
 {{> footers/footer-main }}
 </body>
-{{>js-main}}
-{{>js-popovers-tooltips}}
-{{>js-socket-test}}
+{{> jsincludes/js-main}}
+{{> jsincludes/js-popovers-tooltips}}
+{{> jsincludes/js-socket-test}}
 </html>

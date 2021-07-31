@@ -31,7 +31,7 @@ class DownloadManager {
         /*
         jsonPostRequest should be an object with attributes
         a) url - the url
-        b) params - the parameters, including type GET/POST
+        b) params - the parameters, including type GET/POST/DELETE
         c) callback - the function to receive the callback of results/status
          */
         // add a new requestId to the request for future tracking
@@ -83,11 +83,12 @@ class DownloadManager {
     callbackForQueueRequest(jsonData,httpStatus,queueId, requestId) {
         // let the listeners know about the completion
         if (queueId === 1) { // priority
-            if (this.priorityChangeListener) this.priorityChangeListener.handleEventRemoveFromQueue()
+            if (this.priorityChangeListener) this.priorityChangeListener.handleEventRemoveFromQueue();
         }
         else {
             if (this.backgroundChangeListener) this.backgroundChangeListener.handleEventRemoveFromQueue();
         }
+        logger.log(`Download Manager: received callback for queue ${queueId} request ${requestId} with status ${httpStatus}`,100);
         // find the item in the in progress
         let foundIndex = this.inProgress.findIndex((element) => element.requestId === requestId);
         if (foundIndex >= 0) {
@@ -103,13 +104,23 @@ class DownloadManager {
 
     initiateFetchForQueueItem(item) {
         logger.log(`Download Manager: initiating fetch for queue item ${item.requestId}`,100);
+        logger.log(item);
         if ((item.url !== null) && (item.params != null) && (item.callback != null)) {
-            if (item.type == "POST") {
-                apiUtil.apiFetchJSONWithPost(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
+            switch(item.params.type) {
+                case "POST": {
+                    apiUtil.apiFetchJSONWithPost(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
+                    break;
+                }
+                case "GET": {
+                    apiUtil.apiFetchJSONWithGet(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
+                    break;
+                }
+                case "DELETE": {
+                    apiUtil.apiFetchJSONWithDelete(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
+                    break;
+                }
             }
-            else {
-                apiUtil.apiFetchJSONWithGet(item.url,item.params,this.callbackForQueueRequest,item.queueId,item.requestId);
-            }
+
         }
     }
 }

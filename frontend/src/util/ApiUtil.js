@@ -8,15 +8,18 @@ class ApiUtil {
                 logger.log("Response code was " + response.status);
                 if (response.status >= 200 && response.status <= 299) {
                     return response.json();
-                } else {
-                    callback(null, response.status,queueId, requestId);
-                    throw new Error("no results");
                 }
+                // else {
+                //     callback(null, response.status,queueId, requestId);
+                //     throw new Error("no results");
+                // }
             })
             .then(data => {
-                callback(JSON.parse(data),200,queueId, requestId);
+                logger.log(data);
+                callback(data,200,queueId, requestId);
             })
             .catch(error => {
+                logger.log(error);
                 callback(null,500,queueId, requestId);
             });
     }
@@ -46,12 +49,10 @@ class ApiUtil {
         const postParameters = {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({parameters})
+            body: JSON.stringify({...parameters})
         };
 
         this.__fetchJSON(url,postParameters,callback,queueId,requestId);
-
-
     }
 
     apiFetchJSONWithGet(url, parameters, callback, queueId = 0,requestId = 0) {
@@ -60,11 +61,21 @@ class ApiUtil {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
         };
-        if (parameters.id) url += parameters.id;
+        if (parameters.id) url += "/" + parameters.id;
 
         this.__fetchJSON(url,getParameters,callback,queueId,requestId);
     }
-}
+
+    apiFetchJSONWithDelete(url, parameters, callback, queueId = 0,requestId = 0) {
+        logger.log(`Executing DELETE fetch with URL ${url} with id ${parameters.id}`, 100);
+        const delParameters = {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json'}
+        };
+        if (parameters.id) url += "/" + parameters.id;
+
+        this.__fetchJSON(url,delParameters,callback,queueId,requestId);
+    }}
 
 let apiUtil = new ApiUtil();
 

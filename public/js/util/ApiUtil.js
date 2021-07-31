@@ -1,3 +1,5 @@
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 import logger from './SimpleDebug.js';
 
 var ApiUtil = /*#__PURE__*/function () {
@@ -19,13 +21,16 @@ var ApiUtil = /*#__PURE__*/function () {
 
       if (response.status >= 200 && response.status <= 299) {
         return response.json();
-      } else {
-        callback(null, response.status, queueId, requestId);
-        throw new Error("no results");
-      }
+      } // else {
+      //     callback(null, response.status,queueId, requestId);
+      //     throw new Error("no results");
+      // }
+
     }).then(function (data) {
-      callback(JSON.parse(data), 200, queueId, requestId);
+      logger.log(data);
+      callback(data, 200, queueId, requestId);
     }).catch(function (error) {
+      logger.log(error);
       callback(null, 500, queueId, requestId);
     });
   }
@@ -69,9 +74,7 @@ var ApiUtil = /*#__PURE__*/function () {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        parameters: parameters
-      })
+      body: JSON.stringify(_extends({}, parameters))
     };
 
     this.__fetchJSON(url, postParameters, callback, queueId, requestId);
@@ -93,9 +96,30 @@ var ApiUtil = /*#__PURE__*/function () {
         'Content-Type': 'application/json'
       }
     };
-    if (parameters.id) url += parameters.id;
+    if (parameters.id) url += "/" + parameters.id;
 
     this.__fetchJSON(url, getParameters, callback, queueId, requestId);
+  };
+
+  _proto.apiFetchJSONWithDelete = function apiFetchJSONWithDelete(url, parameters, callback, queueId, requestId) {
+    if (queueId === void 0) {
+      queueId = 0;
+    }
+
+    if (requestId === void 0) {
+      requestId = 0;
+    }
+
+    logger.log("Executing DELETE fetch with URL " + url + " with id " + parameters.id, 100);
+    var delParameters = {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    if (parameters.id) url += "/" + parameters.id;
+
+    this.__fetchJSON(url, delParameters, callback, queueId, requestId);
   };
 
   return ApiUtil;
