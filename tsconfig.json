@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2015",
+    "allowJs": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "isolatedModules": true,
+    "jsx": "react"
+  },
+  "include": [
+    "frontend/src",
+    "backend/src"
+  ]
+
+}

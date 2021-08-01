@@ -1,5 +1,4 @@
-import logger from './util/SimpleDebug.js';
-import fetchUtil from "./util/FetchUtil.js";
+import fetchUtil from './util/ApiUtil';
 
 var Controller = /*#__PURE__*/function () {
   function Controller(applicationView, clientSideStorage) {
@@ -7,9 +6,9 @@ var Controller = /*#__PURE__*/function () {
     this.clientSideStorage = clientSideStorage;
     this.fetchUtility = fetchUtil; // setup query URLs
 
-    this.queryURL = ""; // setup local storage key and previous searches array
+    this.queryURL = ''; // setup local storage key and previous searches array
 
-    this.localStorageKey1 = "";
+    this.localStorageKey1 = '';
     this.localStorageItems1 = []; // setup event handlers and local storage access call
 
     this.handleExampleEvent = this.handleExampleEvent.bind(this);

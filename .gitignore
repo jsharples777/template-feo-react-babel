@@ -1,2 +1,5 @@
 /.idea/
 /node_modules/
+/server/log/
+/backend/node_modules/
+/frontend/node_modules/
