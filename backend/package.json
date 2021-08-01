@@ -1,15 +1,13 @@
 {
-  "name": "template-feo-react-babel",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Template for front-end with React and Babel compiler",
-  "main": "index.js",
+  "description": "Template for back-end with Webpack",
+  "main": "./dist/server.js",
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "compilefe": "babel frontend/src --out-dir public/js  --verbose --extensions '.jsx,.js,.ts,.tsx'",
-    "watchfe": "babel frontend/src --out-dir public/js --watch --verbose  --extensions '.jsx,.js,.ts,.tsx'",
-    "compilebe": "babel backend/src --out-dir backend/dist  --verbose --extensions '.jsx,.js,.ts,.tsx'",
-    "watchbe": "babel backend/src --out-dir backend/dist --watch --verbose  --extensions '.jsx,.js,.ts,.tsx'",
+    "compile": "babel src --out-dir dist  --verbose --extensions '.jsx,.js,.ts,.tsx'",
+    "watch": "babel src --out-dir dist --watch --verbose  --extensions '.jsx,.js,.ts,.tsx'",
     "start": "nodemon -e js,graphql,env -w backend -w .env  -w . backend/dist/server.js"
   },
   "dependencies": {
@@ -36,8 +34,6 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
     "path": "^0.12.7",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "request": "^2.88.2",
     "serve-favicon": "^2.5.0",
     "should": "^13.2.3",

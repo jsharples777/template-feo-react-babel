@@ -44,9 +44,7 @@ app.set('view engine', 'handlebars');
 app.set('view cache', !isDevelopment); // view caching in production
 // Express middlewares
 
-app.use("/", express.static("public")); // root directory of static content
-
-app.use('/dist', express.static("dist")); // root directory of distributed CSS, JS libraries
+app.use("/", express.static("../../public")); // root directory of static content
 
 app.use(cookieParser()); // add cookie support
 
