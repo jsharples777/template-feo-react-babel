@@ -17,7 +17,7 @@ var BulmaNotification = /*#__PURE__*/function () {
     }
 
     if (context === void 0) {
-      context = "info";
+      context = 'info';
     }
 
     if (duration === void 0) {
@@ -25,20 +25,20 @@ var BulmaNotification = /*#__PURE__*/function () {
     }
 
     // Creating the notification container div
-    var containerNode = document.createElement("div");
-    containerNode.className = "notification note note-visible";
+    var containerNode = document.createElement('div');
+    containerNode.className = 'notification note note-visible';
     containerNode.style.top = topOffset + "px"; // Adding the notification title node
 
     var titleNode = document.createElement('p');
-    titleNode.className = "note-title";
+    titleNode.className = 'note-title';
     titleNode.textContent = title; // Adding the notification message content node
 
     var messageNode = document.createElement('p');
-    messageNode.className = "note-content";
+    messageNode.className = 'note-content';
     messageNode.textContent = message; // Adding a little button on the notification
 
     var closeButtonNode = document.createElement('button');
-    closeButtonNode.className = "delete";
+    closeButtonNode.className = 'delete';
     closeButtonNode.addEventListener('click', function () {
       _this.notificationManager.remove(containerNode);
     }); // Appending the container with all the elements newly created

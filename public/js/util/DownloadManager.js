@@ -2,9 +2,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-import apiUtil from "./ApiUtil.js";
-import uuid from "./UUID.js";
-import logger from "./SimpleDebug.js";
+import apiUtil from './ApiUtil';
+import uuid from './UUID';
+import logger from './SimpleDebug';
 
 var DownloadManager = /*#__PURE__*/function () {
   function DownloadManager() {
@@ -38,11 +38,11 @@ var DownloadManager = /*#__PURE__*/function () {
     }
 
     /*
-    jsonPostRequest should be an object with attributes
-    a) url - the url
-    b) params - the parameters, including type GET/POST/DELETE
-    c) callback - the function to receive the callback of results/status
-     */
+        jsonPostRequest should be an object with attributes
+        a) url - the url
+        b) params - the parameters, including type GET/POST/DELETE
+        c) callback - the function to receive the callback of results/status
+         */
     // add a new requestId to the request for future tracking
     var requestId = uuid.getUniqueId();
     jsonRequest.requestId = requestId;
@@ -177,9 +177,7 @@ var DownloadManager = /*#__PURE__*/function () {
     if (queueId === 1) {
       // priority
       if (this.priorityChangeListener) this.priorityChangeListener.handleEventRemoveFromQueue();
-    } else {
-      if (this.backgroundChangeListener) this.backgroundChangeListener.handleEventRemoveFromQueue();
-    }
+    } else if (this.backgroundChangeListener) this.backgroundChangeListener.handleEventRemoveFromQueue();
 
     logger.log("Download Manager: received callback for queue " + queueId + " request " + requestId + " with status " + httpStatus, 100); // find the item in the in progress
 
@@ -204,19 +202,19 @@ var DownloadManager = /*#__PURE__*/function () {
 
     if (item.url !== null && item.params != null && item.callback != null) {
       switch (item.params.type) {
-        case "POST":
+        case 'POST':
           {
             apiUtil.apiFetchJSONWithPost(item.url, item.params, this.callbackForQueueRequest, item.queueId, item.requestId);
             break;
           }
 
-        case "GET":
+        case 'GET':
           {
             apiUtil.apiFetchJSONWithGet(item.url, item.params, this.callbackForQueueRequest, item.queueId, item.requestId);
             break;
           }
 
-        case "DELETE":
+        case 'DELETE':
           {
             apiUtil.apiFetchJSONWithDelete(item.url, item.params, this.callbackForQueueRequest, item.queueId, item.requestId);
             break;

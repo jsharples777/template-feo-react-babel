@@ -1,11 +1,11 @@
-import BulmaNotification from "./Notifications.js";
+import BulmaNotification from './Notifications';
 
 var NotificationManager = /*#__PURE__*/function () {
   function NotificationManager() {
     this.notifications = [];
     this.currentCount = 0;
     this.offsetPerNotification = 120;
-    this.containerId = "notifications";
+    this.containerId = 'notifications';
   }
 
   var _proto = NotificationManager.prototype;
@@ -16,7 +16,7 @@ var NotificationManager = /*#__PURE__*/function () {
 
   _proto.show = function show(title, message, context, duration) {
     if (context === void 0) {
-      context = "info";
+      context = 'info';
     }
 
     if (duration === void 0) {

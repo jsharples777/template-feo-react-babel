@@ -1,4 +1,4 @@
-import logger from "./SimpleDebug.js";
+import logger from './SimpleDebug';
 
 var LocalStorageUtil = /*#__PURE__*/function () {
   function LocalStorageUtil(localStorage) {
@@ -50,7 +50,7 @@ var LocalStorageUtil = /*#__PURE__*/function () {
       });
 
       if (foundIndex >= 0) {
-        logger.log("Local Storage: Found item - removing ", 100);
+        logger.log('Local Storage: Found item - removing ', 100);
         previousResults.splice(foundIndex, 1);
         logger.log(previousResults, 101);
         this.saveWithStorageKey(key, previousResults);
@@ -68,7 +68,7 @@ var LocalStorageUtil = /*#__PURE__*/function () {
       });
 
       if (foundIndex >= 0) {
-        logger.log("Local Storage: Found item - removing ", 100);
+        logger.log('Local Storage: Found item - removing ', 100);
         previousResults.splice(foundIndex, 1);
         logger.log(previousResults, 101);
         this.saveWithStorageKey(key, previousResults);

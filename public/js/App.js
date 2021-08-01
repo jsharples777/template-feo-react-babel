@@ -4,8 +4,8 @@ function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.crea
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-import logger from './util/SimpleDebug.js';
-import Controller from "./Controller.js";
+import logger from './util/SimpleDebug';
+import Controller from './Controller';
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(App, _React$Component);
@@ -35,7 +35,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 var element = /*#__PURE__*/React.createElement(App, {
   className: "container-fluid"
 });
-ReactDOM.render(element, document.getElementById("root"));
+ReactDOM.render(element, document.getElementById('root'));
 var socket = io();
 var form = document.getElementById('form');
 var input = document.getElementById('input');

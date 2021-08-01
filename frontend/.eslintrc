@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": "true"
+  },
+  "rules": {
+    "no-console": "off",
+    "no-restricted-globals": "off"
+  }
+}

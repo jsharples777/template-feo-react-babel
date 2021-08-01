@@ -1,4 +1,4 @@
-import logger from "./SimpleDebug.js";
+import logger from './SimpleDebug';
 /** To Do - make state unchangeable outside of this class (i.e. deep copies) */
 
 var StateManagementUtil = /*#__PURE__*/function () {
@@ -39,11 +39,11 @@ var StateManagementUtil = /*#__PURE__*/function () {
     }
   }
   /*
-    Add a state listener for a given state name
-    the listener should be a function with two parameters
-    name - string - the name of the state variable that they want to be informed about
-    stateObjValue - object - the new state value
-   */
+      Add a state listener for a given state name
+      the listener should be a function with two parameters
+      name - string - the name of the state variable that they want to be informed about
+      stateObjValue - object - the new state value
+     */
   ;
 
   _proto.addChangeListenerForName = function addChangeListenerForName(name, listener) {
@@ -175,7 +175,7 @@ var StateManagementUtil = /*#__PURE__*/function () {
     if (foundIndex >= 0) {
       result = true; // remove the item from the state
 
-      logger.log("State Manager: Found item - removing ", 100);
+      logger.log('State Manager: Found item - removing ', 100);
       state.splice(foundIndex, 1);
       logger.log(state, 101);
       this.setStateByName(name, state);
@@ -194,7 +194,7 @@ var StateManagementUtil = /*#__PURE__*/function () {
     if (foundIndex >= 0) {
       result = true; // remove the item from the state
 
-      logger.log("State Manager: Found item - replacing ", 100);
+      logger.log('State Manager: Found item - replacing ', 100);
       state.splice(foundIndex, 1);
       state.push(item);
       logger.log(state, 101);
