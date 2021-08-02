@@ -14,8 +14,7 @@
     "jsx": "react"
   },
   "include": [
-    "frontend/src",
-    "backend/src"
+    "src"
   ]
 
 }

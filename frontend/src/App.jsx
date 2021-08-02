@@ -5,7 +5,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class App extends React.Component {
+class Root extends React.Component {
   constructor() {
     super();
     logger.setOn();
@@ -15,7 +15,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="App" className="App">
+      <div id="Root" className="Root">
         <h1>Hello World!</h1>
       </div>
     );
@@ -23,7 +23,7 @@ class App extends React.Component {
 }
 
 
-const element = <App className="container-fluid" />;
+const element = <Root className="container-fluid" />;
 
 ReactDOM.render(element, document.getElementById('root'));
 

@@ -30,7 +30,7 @@ var passport = require('passport');
 
 var LocalStrategy = require('passport-local').Strategy;
 
-isDevelopment = process.env.MODE === "Development"; // Create and configure the express app
+isDevelopment = process.env.MODE === 'Development'; // Create and configure the express app
 
 var app = express(); // Express view/template engine setup
 
@@ -44,7 +44,7 @@ app.set('view engine', 'handlebars');
 app.set('view cache', !isDevelopment); // view caching in production
 // Express middlewares
 
-app.use("/", express.static("../../public")); // root directory of static content
+app.use('/', express.static('../../public')); // root directory of static content
 
 app.use(cookieParser()); // add cookie support
 
@@ -67,7 +67,7 @@ app.use(passport.session({})); // setup authentication to use cookie/sessions
 /* Are we in Development or in Production? */
 
 if (isDevelopment) {
-  app.use(morgan("dev"));
+  app.use(morgan('dev'));
   /* log server calls with performance timing with development details */
 
   /* log call requests with body */
@@ -78,28 +78,23 @@ if (isDevelopment) {
     next();
   });
 } else {
-  app.use(morgan("combined"));
+  app.use(morgan('combined'));
   /* log server calls per standard combined Apache combined format */
 } // ensure the user is logged in with a path
 
 
-var routes = require('./routes'); // add the middleware path routing
+var routes = require('./routes/index.js'); // add the middleware path routing
 
 
-app.use("/", routes); // add the routes to the express middleware
-
-var patients = require('./routes/patients'); // add the patient middleware path routing
-
-
-app.use("/", patients); // add the roues to the express middleware
+app.use('/', routes); // add the routes to the express middleware
 // Setup authentication
 // var Account = require('./models/account');
 // passport.use(new LocalStrategy(Account.authenticate()));
 // passport.serializeUser(Account.serializeUser());
 // passport.deserializeUser(Account.deserializeUser());
 // database connection
-
-mongoose.connect(process.env.DB_URL); // catch 404 and forward to error handler
+//mongoose.connect(process.env.DB_URL);
+// catch 404 and forward to error handler
 
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
@@ -128,7 +123,7 @@ if (isDevelopment) {
 var httpServer = http.Server(app);
 var port = process.env.PORT || 3000;
 
-var io = require("socket.io")(httpServer); // setup socket.io
+var io = require('socket.io')(httpServer); // setup socket.io
 
 
 httpServer.listen(port, function () {

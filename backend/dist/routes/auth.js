@@ -4,13 +4,13 @@ module.exports = {
       return next();
     }
 
-    res.redirect("/login");
+    res.redirect('/login');
   },
   forwardAuthenticated: function forwardAuthenticated(req, res, next) {
     if (!req.isAuthenticated()) {
       return next();
     }
 
-    res.redirect("/");
+    res.redirect('/');
   }
 };

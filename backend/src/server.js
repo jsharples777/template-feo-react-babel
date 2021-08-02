@@ -64,13 +64,9 @@ if (isDevelopment) {
 // ensure the user is logged in with a path
 
 
-const routes = require('./routes');
+const routes = require('./routes/index.js');
 // add the middleware path routing
 app.use('/', routes); // add the routes to the express middleware
-
-const patients = require('./routes/patients');
-// add the patient middleware path routing
-app.use('/', patients); // add the roues to the express middleware
 
 // Setup authentication
 // var Account = require('./models/account');
@@ -79,7 +75,7 @@ app.use('/', patients); // add the roues to the express middleware
 // passport.deserializeUser(Account.deserializeUser());
 
 // database connection
-mongoose.connect(process.env.DB_URL);
+//mongoose.connect(process.env.DB_URL);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

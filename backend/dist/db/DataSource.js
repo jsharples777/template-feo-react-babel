@@ -1,4 +1,4 @@
-var _require = require("./JSONFileStorageUtil"),
+var _require = require('./JSONFileStorageUtil'),
     JSONFileStorageUtil = _require.JSONFileStorageUtil;
 
 var uuid = require('../util/UUID');
@@ -17,7 +17,7 @@ var DataSource = /*#__PURE__*/function () {
   _proto.addNewItem = function addNewItem(dataObj) {
     debug('Adding new item');
     debug(dataObj);
-    dataObj["id"] = uuid.getUniqueId();
+    dataObj.id = uuid.getUniqueId();
     this.jsonDS.addWithId(dataObj.id, dataObj);
     return dataObj;
   };
@@ -56,7 +56,7 @@ var DataSource = /*#__PURE__*/function () {
   };
 
   _proto.getItems = function getItems() {
-    debug("Getting items");
+    debug('Getting items');
     var items = this.jsonDS.getItems();
     debug(items);
     return items;

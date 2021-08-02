@@ -50,7 +50,7 @@ var JSONFileStorageUtil = /*#__PURE__*/function () {
     });
 
     if (foundIndex >= 0) {
-      debug("Found item - removing ");
+      debug('Found item - removing ');
       previousResults.splice(foundIndex, 1);
       debug(previousResults);
     }
@@ -70,7 +70,7 @@ var JSONFileStorageUtil = /*#__PURE__*/function () {
     });
 
     if (foundIndex >= 0) {
-      debug("Found item");
+      debug('Found item');
       result = this.savedData[foundIndex];
     }
 
@@ -98,7 +98,7 @@ var JSONFileStorageUtil = /*#__PURE__*/function () {
     });
 
     if (foundIndex >= 0) {
-      debug("Found item - removing ");
+      debug('Found item - removing ');
       previousResults.splice(foundIndex, 1);
       debug(previousResults);
       this.overwriteFile(previousResults);
