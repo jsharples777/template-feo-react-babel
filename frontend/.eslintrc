@@ -5,6 +5,7 @@
   },
   "rules": {
     "no-console": "off",
-    "no-restricted-globals": "off"
+    "no-restricted-globals": "off",
+    "react/prop-types": "off"
   }
 }
