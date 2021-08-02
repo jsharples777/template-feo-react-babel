@@ -6,12 +6,15 @@
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
+    "webpack_compile": "webpack --mode development",
+    "webpack_watch": "webpack --mode development --watch",
     "compile": "babel src --out-dir dist  --verbose --extensions '.jsx,.js,.ts,.tsx'",
     "watch": "babel src --out-dir dist --watch --verbose  --extensions '.jsx,.js,.ts,.tsx'",
-    "start": "nodemon -e js,graphql,env -w backend -w .env  -w . backend/dist/server.js",
+    "start": "nodemon -e js,graphql,env -w . -w .env  -w . dist/server.js",
     "lint": "eslint --ignore-pattern dist --fix ."
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.5",
@@ -35,7 +38,11 @@
     "path": "^0.12.7",
     "request": "^2.88.2",
     "serve-favicon": "^2.5.0",
-    "socket.io": "^4.1.3"
+    "socket.io": "^4.1.3",
+    "webpack": "^5.47.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-middleware": "^5.0.0",
+    "webpack-hot-middleware": "^2.25.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -46,7 +53,7 @@
     "@types/jest": "^26.0.24",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^16.4.7",
-    "babel-polyfill": "^6.26.0",
+    "babel-loader": "^8.2.2",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.23.4",

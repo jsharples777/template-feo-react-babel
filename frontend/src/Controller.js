@@ -4,7 +4,7 @@ export default class Controller {
   constructor(applicationView, clientSideStorage) {
     this.applicationView = applicationView;
     this.clientSideStorage = clientSideStorage;
-    this.fetchUtility = fetchUtil;
+    this.apiUtil = apiUtil;
 
     // setup query URLs
     this.queryURL = '';

@@ -6,11 +6,17 @@
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "compile": "webpack --mode production",
-    "watch": "webpack --watch",
+    "build": "webpack --mode production",
+    "webpack_compile": "webpack --mode development",
+    "webpack_watch": "webpack --mode development --watch",
+    "compile": "babel src --out-dir ../backend/public/js  --verbose --extensions '.jsx,.js,.ts,.tsx'",
+    "watch": "babel src --out-dir ../backend/public/js --watch --verbose  --extensions '.jsx,.js,.ts,.tsx'",
     "lint": "eslint --ext js,jsx,tsx,ts --fix ."
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "debug": "^4.3.2",
+    "jquery": "^3.6.0",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -27,7 +33,6 @@
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "babel-loader": "^8.2.2",
-    "babel-polyfill": "^6.26.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.23.4",
@@ -53,5 +58,10 @@
   "bugs": {
     "url": "https://github.com/jsharples777/template-feo-react-babel/issues"
   },
-  "homepage": "https://github.com/jsharples777/template-feo-react-babel#readme"
+  "homepage": "https://github.com/jsharples777/template-feo-react-babel#readme",
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
 }

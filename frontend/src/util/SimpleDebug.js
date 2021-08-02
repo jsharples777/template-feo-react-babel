@@ -1,28 +1,27 @@
 class SimpleDebug {
-    constructor() {
-        this.debugOn = true;
-        this.debugDepth = 100;
-    }
+  constructor() {
+    this.debugOn = true;
+    this.debugDepth = 100;
+  }
 
-    log(message, debugDepth = 5) {
-        if (!this.debugOn) return;
-        if (debugDepth > this.debugDepth) return;
-        console.log(message);
-    }
+  log(message, debugDepth = 5) {
+    if (!this.debugOn) return;
+    if (debugDepth > this.debugDepth) return;
+    console.log(message);
+  }
 
-    setLevel(newLevel) {
-        this.debugDepth = newLevel;
-    }
+  setLevel(newLevel) {
+    this.debugDepth = newLevel;
+  }
 
-    setOn() {
-        this.debugOn = true;
-    }
+  setOn() {
+    this.debugOn = true;
+  }
 
-    setOff() {
-        this.debugOn = false;
-    }
-
+  setOff() {
+    this.debugOn = false;
+  }
 }
 
-let logger = new SimpleDebug();
+const logger = new SimpleDebug();
 export default logger;

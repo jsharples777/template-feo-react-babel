@@ -3,5 +3,5 @@
 /server/log/
 /backend/node_modules/
 /frontend/node_modules/
-/public/js/app.bundle.js
-/public/js/vendor.bundle.js
+/backend/public/js/app.bundle.js
+/backend/public/js/vendor.bundle.js

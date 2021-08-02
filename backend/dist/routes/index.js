@@ -2,8 +2,9 @@ var express = require('express');
 
 var passport = require('passport');
 
-var request = require('request'); //const Account = require('../models/account');
+var request = require('request');
 
+var Account = require('../models/account');
 
 var router = express.Router();
 
