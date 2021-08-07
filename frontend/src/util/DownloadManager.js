@@ -101,7 +101,7 @@ class DownloadManager {
     logger.log(`Download Manager: initiating fetch for queue item ${item.requestId}`, 100);
     logger.log(item);
     if ((item.url !== null) && (item.params != null) && (item.callback != null)) {
-      switch (item.params.type) {
+      switch (item.type) {
         case 'POST': {
           apiUtil.apiFetchJSONWithPost(item.url, item.params, this.callbackForQueueRequest, item.queueId, item.requestId);
           break;
