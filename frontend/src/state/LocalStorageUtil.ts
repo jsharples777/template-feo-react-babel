@@ -7,12 +7,12 @@ const lsLogger = debug('local-storage');
 export default class LocalStorageUtil {
   protected localStorage:any;
 
-  constructor(localStorage:any) {
+  public constructor(localStorage:any) {
     this.localStorage = localStorage;
   }
 
 
-  saveWithStorageKey(key:string, saveData:any):void {
+  public saveWithStorageKey(key:string, saveData:any):void {
     lsLogger(`Local Storage: Saving with key ${key}`);
     lsLogger(saveData);
     const stringifiedSaveData:string = JSON.stringify(saveData);
@@ -20,7 +20,7 @@ export default class LocalStorageUtil {
     this.localStorage.setItem(key, stringifiedSaveData);
   }
 
-  getWithStorageKey(key:string):any[] {
+  public getWithStorageKey(key:string):any[] {
     let savedResults = [];
     lsLogger(`Local Storage: Loading with key ${key}`);
     const savedResultsJSON = this.localStorage.getItem(key);
@@ -32,7 +32,7 @@ export default class LocalStorageUtil {
   }
 
   /* add a new item to the local storage if not already there */
-  addNewItemToKeyStorage(key:string, item:any):void {
+  public addNewItemToKeyStorage(key:string, item:any):void {
     if (item !== null) {
       lsLogger(`Local Storage: Adding with key ${key}`);
       lsLogger(item);
@@ -42,7 +42,7 @@ export default class LocalStorageUtil {
     }
   }
 
-  removeItemFromKeyStorage(key:string, item:any):void {
+  public removeItemFromKeyStorage(key:string, item:any):void {
     if (item !== null) {
       lsLogger(`Local Storage: Removing with key ${key}`);
       lsLogger(item);
@@ -57,7 +57,7 @@ export default class LocalStorageUtil {
     }
   }
 
-  removeItemFromKeyStorageWithFunctionForEquality(key:string, item:any, testForEqualityFunction:equalityFunction) {
+  public removeItemFromKeyStorageWithFunctionForEquality(key:string, item:any, testForEqualityFunction:equalityFunction) {
     if (item !== null) {
       lsLogger(`Local Storage: Removing with key ${key} and comparison function`);
       lsLogger(item, 101);
