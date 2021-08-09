@@ -7,13 +7,14 @@
     "tsc": "tsc",
     "test": "jest",
     "build": "webpack --mode production",
-    "webpack_compile": "webpack --mode development",
-    "webpack_watch": "webpack --mode development --watch",
+    "wpcompile": "webpack --mode development",
+    "wpwatch": "webpack --mode development --watch",
     "compile": "babel src --out-dir ../backend/public/js  --verbose --extensions '.jsx,.js,.ts,.tsx'",
     "watch": "babel src --out-dir ../backend/public/js --watch --verbose  --extensions '.jsx,.js,.ts,.tsx'",
     "lint": "eslint --ext js,jsx,tsx,ts --fix ."
   },
   "dependencies": {
+    "@types/debug": "^4.1.7",
     "babel-polyfill": "^6.26.0",
     "debug": "^4.3.2",
     "jquery": "^3.6.0",
