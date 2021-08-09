@@ -22,6 +22,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+// Sockets
+const socketManager = require('./util/SocketManager');
 
 isDevelopment = (process.env.MODE === 'Development');
 debug(`Is development mode ${isDevelopment}`);
@@ -68,6 +70,7 @@ app.use(cookieParser()); // add cookie support
 app.use(bodyParser.json()); // add POST JSON support
 app.use(bodyParser.urlencoded({ extended: true })); // and POST URL Encoded form support
 app.use(session({ secret: 'frankie', resave: true, saveUninitialized: true })); // Add session support
+app.use(connectFlash()); // flash messages
 app.use(passport.initialize()); // initialise the authentication
 app.use(passport.session({})); // setup authentication to use cookie/sessions
 
@@ -154,20 +157,11 @@ if (isDevelopment) {
 
 const httpServer = http.Server(app);
 
-const io = require('socket.io')(httpServer); // setup socket.io
+// setup the sockets manager with the server
+socketManager.connectToServer(httpServer);
 
 httpServer.listen(port, () => {
   debug(`Server started on port ${port}`);
 
-  io.on('connection', (socket) => {
-    socketDebug('Sockets: a user connected');
-    socket.on('disconnect', () => {
-      socketDebug('Sockets: user disconnected');
-    });
-    socket.on('chat message', (msg) => {
-      socketDebug("Sockets: Received message " + msg);
-      io.emit('chat message', msg);
-      socketDebug("Sockets: Sending message " + msg);
-    });
-  });
+  socketManager.listen();
 });

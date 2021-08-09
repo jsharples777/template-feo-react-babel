@@ -1,7 +1,10 @@
 import apiUtil from './util/ApiUtil.js';
 
-export default class Controller {
+const cLogger = debug('Controller');
+
+class Controller  extends SocketListener {
   constructor(applicationView, clientSideStorage) {
+    super();
     this.applicationView = applicationView;
     this.clientSideStorage = clientSideStorage;
     this.apiUtil = apiUtil;
@@ -34,4 +37,20 @@ export default class Controller {
   callbackForFetchFromAPI(jsonData, httpStatus) {
 
   }
+
+  handleMessage(message) {
+    cLogger(message);
+  }
+
+  getCurrentUser() {
+    return -1;
+  }
+
+  handleDataChangedByAnotherUser(message) {
+
+  }
 }
+
+const controller = new Controller();
+
+export default controller;

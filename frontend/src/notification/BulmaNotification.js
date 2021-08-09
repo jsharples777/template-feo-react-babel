@@ -1,11 +1,8 @@
-export default class BulmaNotification {
+import Notification from "./Notification";
+
+export default class BulmaNotification extends Notification{
   constructor(notificationManager) {
-    this.show = this.show.bind(this);
-
-    this.notificationManager = notificationManager;
-
-    // Create DOM notification structure when instantiated
-    this.containerId = this.notificationManager.getContainerId();
+    super(notificationManager);
   }
 
   // Make the notification visible on the screen

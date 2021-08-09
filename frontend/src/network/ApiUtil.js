@@ -1,10 +1,12 @@
-import logger from './SimpleDebug.js';
+import debug from 'debug';
+
+const apiLogger = debug('api');
 
 class ApiUtil {
   __fetchJSON(url, parameters, callback, queueId = 0, requestId = 0) {
     fetch(url, parameters)
       .then((response) => {
-        logger.log(`Response code was ${response.status}`);
+        apiLogger(`Response code was ${response.status}`);
         if (response.status >= 200 && response.status <= 299) {
           return response.json();
         }
@@ -14,11 +16,11 @@ class ApiUtil {
         // }
       })
       .then((data) => {
-        logger.log(data);
+        apiLogger(data);
         callback(data, 200, queueId, requestId);
       })
       .catch((error) => {
-        logger.log(error);
+        apiLogger(error);
         callback(null, 500, queueId, requestId);
       });
   }
@@ -36,12 +38,12 @@ class ApiUtil {
           c)  A server error will give that code and no data
     */
   apiFetchJSONWithPost(url, parameters, callback, queueId = 0, requestId = 0) {
-    logger.log(`Executing fetch with URL ${url} with body ${parameters}`, 100);
+    apiLogger(`Executing fetch with URL ${url} with body ${parameters}`);
     try {
       JSON.stringify({ parameters });
     } catch (error) {
-      logger.log('Unable to convert parameters to JSON', 100);
-      logger.log(parameters, 100);
+      apiLogger('Unable to convert parameters to JSON');
+      apiLogger(parameters, 100);
       callback(null, 404, queueId, requestId);
     }
     const postParameters = {
@@ -54,7 +56,7 @@ class ApiUtil {
   }
 
   apiFetchJSONWithGet(url, parameters, callback, queueId = 0, requestId = 0) {
-    logger.log(`Executing GET fetch with URL ${url} with id ${parameters.id}`, 100);
+    apiLogger(`Executing GET fetch with URL ${url} with id ${parameters.id}`);
     const getParameters = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -65,7 +67,7 @@ class ApiUtil {
   }
 
   apiFetchJSONWithDelete(url, parameters, callback, queueId = 0, requestId = 0) {
-    logger.log(`Executing DELETE fetch with URL ${url} with id ${parameters.id}`, 100);
+    apiLogger(`Executing DELETE fetch with URL ${url} with id ${parameters.id}`);
     const delParameters = {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -73,6 +75,18 @@ class ApiUtil {
     if (parameters.id) url += `/${parameters.id}`;
 
     this.__fetchJSON(url, delParameters, callback, queueId, requestId);
+  }
+
+  apiFetchJSONWithPut(url, parameters, callback, queueId = 0, requestId = 0) {
+    apiLogger(`Executing PUT fetch with URL ${url} with id ${parameters.id}`);
+    const putParameters = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...parameters }),
+    };
+    if (parameters.id) url += `/${parameters.id}`;
+
+    this.__fetchJSON(url, putParameters, callback, queueId, requestId);
   }
 }
 

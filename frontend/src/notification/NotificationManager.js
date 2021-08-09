@@ -1,4 +1,4 @@
-import BulmaNotification from './Notifications.js';
+import notificationFactory from "./NotificationFactory";
 
 class NotificationManager {
   constructor() {
@@ -6,6 +6,8 @@ class NotificationManager {
     this.currentCount = 0;
     this.offsetPerNotification = 120;
     this.containerId = 'notifications';
+
+    this.show = this.show.bind(this);
   }
 
   getContainerId() {
@@ -13,7 +15,7 @@ class NotificationManager {
   }
 
   show(title, message, context = 'info', duration = 5000) {
-    const notification = new BulmaNotification(this);
+    const notification = notificationFactory.createNotification(this);
     const notificationNode = notification.show(title, message, this.currentCount * this.offsetPerNotification, context, duration);
     this.currentCount++;
     this.notifications.push(notificationNode);

@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/register', (req, res) => {
-  res.render('register', {});
+  res.render('register', { layout:"login",user: req.user, error: req.flash()["error"]});
 });
 
 router.post('/register', (req, res) => {
@@ -41,16 +41,19 @@ router.post('/register', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('login', { user: req.user, layout: 'login' });
+  res.render('login', { layout:"login",user: req.user, error: req.flash()["error"]});
 });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.redirect('/');
-});
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
 
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+  req.session.destroy((err) => {
+    res.redirect('/');
+  });
 });
 
 router.get('/ping', (req, res) => {
